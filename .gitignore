@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+.env.local
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/processed/*.csv
+outputs/maps/*.html
+escalation_debug.log
+scratch/
+*.csv
+*.joblib
+*.pkl
+*.model
+*.h5
+*.pth

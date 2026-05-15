@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Flask API Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+    volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+    command: gunicorn -w 4 -b 0.0.0.0:5000 src.dashboard.api:app
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:5000/api
+    depends_on:
+      - backend
+
+  # Nginx Reverse Proxy (optional)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  data:
+  outputs:
